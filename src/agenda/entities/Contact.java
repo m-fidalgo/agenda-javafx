@@ -1,6 +1,6 @@
 package agenda.entities;
 
-public class Contato {
+public class Contact {
   private String nome;
   private int idade;
   private String tel;
