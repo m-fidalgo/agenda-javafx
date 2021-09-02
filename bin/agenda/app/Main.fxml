@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.control.cell.PropertyValueFactory ?>
 
 <VBox maxHeight="420.0" maxWidth="600.0" minHeight="420.0" minWidth="600.0" prefHeight="420.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agenda.app.MainController">
    <children>
@@ -34,17 +41,17 @@
                   </TableColumn>
                   <TableColumn editable="false" prefWidth="230.0" text="Telefone">
                      <cellValueFactory>
-								<PropertyValueFactory property="telefone" />
+								<PropertyValueFactory property="tel" />
 							</cellValueFactory>
                   </TableColumn>
                </columns>
             </TableView>
-            <Button fx:id="btnInsert" layoutX="6.0" layoutY="171.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="172.0" text="Inserir" />
-            <Button fx:id="btnUpdate" layoutX="214.0" layoutY="171.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="172.0" text="Alterar" />
-            <Button fx:id="btnDelete" layoutX="414.0" layoutY="171.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="172.0" text="Excluir" />
+            <Button fx:id="btnInsert" layoutX="6.0" layoutY="171.0" mnemonicParsing="false" onAction="#btnInsert_Action" prefHeight="25.0" prefWidth="172.0" text="Inserir" />
+            <Button fx:id="btnUpdate" layoutX="214.0" layoutY="171.0" mnemonicParsing="false" onAction="#btnUpdate_Action" prefHeight="25.0" prefWidth="172.0" text="Alterar" />
+            <Button fx:id="btnDelete" layoutX="414.0" layoutY="171.0" mnemonicParsing="false" onAction="#btnDelete_Action" prefHeight="25.0" prefWidth="172.0" text="Excluir" />
          </children>
       </Pane>
-      <TitledPane collapsible="false" prefHeight="172.0" prefWidth="600.0" text="Informações de Contato">
+      <TitledPane collapsible="false" prefHeight="168.0" prefWidth="600.0" text="Informações de Contato">
          <content>
             <GridPane>
               <columnConstraints>
@@ -58,22 +65,15 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Nome">
-                  </Label>
+                  <Label text="Nome"></Label>
                   <Label text="Idade" GridPane.columnIndex="1">
                   </Label>
-                  <Label text="Telefone" GridPane.columnIndex="2">
-                  </Label>
-                  <TextField fx:id="txtNome" GridPane.rowIndex="1">
-                  </TextField>
-                  <TextField fx:id="txtIdade" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                  </TextField>
-                  <TextField fx:id="txtTel" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                  </TextField>
-                  <Button fx:id="btnSalvar" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" text="Salvar" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                  </Button>
-                  <Button fx:id="btnCancelar" mnemonicParsing="false" prefHeight="25.0" prefWidth="159.0" text="Cancelar" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                  </Button>
+                  <Label text="Telefone" GridPane.columnIndex="2"></Label>
+                  <TextField fx:id="txtNome" GridPane.rowIndex="1"></TextField>
+                  <TextField fx:id="txtIdade" GridPane.columnIndex="1" GridPane.rowIndex="1"></TextField>
+                  <TextField fx:id="txtTel" GridPane.columnIndex="2" GridPane.rowIndex="1"></TextField>
+                  <Button fx:id="btnSalvar" onAction="#btnSalvar_Action" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" text="Salvar" GridPane.columnIndex="2" GridPane.rowIndex="2"></Button>
+                  <Button fx:id="btnCancelar" onAction="#btnCancelar_Action"  mnemonicParsing="false" prefHeight="25.0" prefWidth="159.0" text="Cancelar" GridPane.columnIndex="1" GridPane.rowIndex="2"></Button>
                </children>
             </GridPane>
          </content></TitledPane>
