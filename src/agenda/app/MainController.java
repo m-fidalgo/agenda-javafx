@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import agenda.entities.Contact;
-import agenda.repositories.impl.ContactRepository;
+import agenda.repositories.impl.JdbcContactRepository;
 import agenda.repositories.interfaces.AgendaRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -70,20 +70,19 @@ public class MainController implements Initializable{
   }
 
   private void carregarTabelaContatos() {
-    AgendaRepository<Contact> repContato = new ContactRepository();
-    List<Contact> contatos = repContato.select();
-
-    if(contatos.isEmpty()){
-      Contact contato = new Contact();
-      contato.setNome("Teste");
-      contato.setIdade(20);
-      contato.setTel("12 12345678");
-      contatos.add(contato);
+    try {
+      AgendaRepository<Contact> repContato = new JdbcContactRepository();
+      List<Contact> contatos = repContato.select();
+      
+      //observable pq assim ele repara qd a lista muda e já atualiza
+      ObservableList<Contact> contatosObservableList = FXCollections.observableArrayList(contatos);
+      this.tabelaContatos.getItems().setAll(contatosObservableList);
+    } catch (Exception e){
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.setTitle("Erro");
+      alert.setHeaderText("Erro ao obter os contatos: " + e.getMessage());
+      alert.showAndWait();
     }
-
-    //observable pq assim ele repara qd a lista muda e já atualiza
-    ObservableList<Contact> contatosObservableList = FXCollections.observableArrayList(contatos);
-    this.tabelaContatos.getItems().setAll(contatosObservableList);
   }
 
   private void habilitarEdicao(Boolean isEdicaoHabilitada){
@@ -117,16 +116,23 @@ public class MainController implements Initializable{
   }
 
   public void btnDelete_Action() {
-    Alert alert = new Alert(AlertType.CONFIRMATION);
-    alert.setTitle("Confirmação");
-    alert.setHeaderText("Tem certeza de que deseja excluir o contato?");
-    Optional<ButtonType> resp = alert.showAndWait();
+    try{
+      Alert alert = new Alert(AlertType.CONFIRMATION);
+      alert.setTitle("Confirmação");
+      alert.setHeaderText("Tem certeza de que deseja excluir o contato?");
+      Optional<ButtonType> resp = alert.showAndWait();
 
-    if(resp.isPresent() && resp.get() == ButtonType.OK){
-      AgendaRepository<Contact> repContato = new ContactRepository();
-      repContato.delete(selectedContact);
-      carregarTabelaContatos();
-      this.tabelaContatos.getSelectionModel().selectFirst();
+      if(resp.isPresent() && resp.get() == ButtonType.OK){
+        AgendaRepository<Contact> repContato = new JdbcContactRepository();
+        repContato.delete(selectedContact);
+        carregarTabelaContatos();
+        this.tabelaContatos.getSelectionModel().selectFirst();
+      }
+    } catch (Exception e){
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.setTitle("Erro");
+      alert.setHeaderText("Erro ao deletar o contatos: " + e.getMessage());
+      alert.showAndWait();
     }
   }
 
@@ -137,18 +143,25 @@ public class MainController implements Initializable{
   }
 
   public void btnSalvar_Action() {
-    AgendaRepository<Contact> repContato = new ContactRepository();
-    Contact contato = new Contact();
-    contato.setNome(txtNome.getText());
-    contato.setIdade(Integer.parseInt(txtIdade.getText()));
-    contato.setTel(txtTel.getText());
+    try {
+      AgendaRepository<Contact> repContato = new JdbcContactRepository();
+      Contact contato = new Contact();
+      contato.setNome(txtNome.getText());
+      contato.setIdade(Integer.parseInt(txtIdade.getText()));
+      contato.setTel(txtTel.getText());
 
-    if(this.isInsert)
-      repContato.insert(contato);
-    else repContato.update(contato);
-
-    habilitarEdicao(false);
-    carregarTabelaContatos();
-    this.tabelaContatos.getSelectionModel().selectFirst();
+      if(this.isInsert)
+        repContato.insert(contato);
+      else repContato.update(contato);
+  
+      habilitarEdicao(false);
+      carregarTabelaContatos();
+      this.tabelaContatos.getSelectionModel().selectFirst();
+    } catch (Exception e){
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.setTitle("Erro");
+      alert.setHeaderText("Erro ao " + (this.isInsert ? "inserir" : "atualizar") + " o contato: " + e.getMessage());
+      alert.showAndWait();
+    }
   }
 }
