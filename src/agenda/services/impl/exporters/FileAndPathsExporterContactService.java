@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import agenda.entities.Contact;
 import agenda.services.interfaces.ContactExporterService;
 
-public class FileAndPathsContactService implements ContactExporterService {
+public class FileAndPathsExporterContactService implements ContactExporterService {
   @Override
   public void export(List<Contact> contatos, String fileName) throws IOException {
     String data = contatos.stream()

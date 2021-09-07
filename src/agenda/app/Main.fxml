@@ -9,6 +9,7 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
@@ -72,9 +73,14 @@
                   <TextField fx:id="txtNome" GridPane.rowIndex="1" />
                   <TextField fx:id="txtIdade" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="txtTel" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Button fx:id="btnExportar" mnemonicParsing="false" onAction="#btnExportar_Action" prefHeight="25.0" prefWidth="122.0" text="Exportar" GridPane.rowIndex="2" />
                   <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#btnSalvar_Action" prefHeight="25.0" prefWidth="169.0" text="Salvar" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#btnCancelar_Action" prefHeight="25.0" prefWidth="159.0" text="Cancelar" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="283.0" GridPane.rowIndex="2">
+                     <children>
+                        <Button fx:id="btnExportar" mnemonicParsing="false" onAction="#btnExportar_Action" prefHeight="25.0" prefWidth="122.0" text="Exportar" />
+                        <Button fx:id="btnImportar" mnemonicParsing="false" onAction="#btnImportar_Action" prefHeight="25.0" prefWidth="122.0" text="Importar" />
+                     </children>
+                  </HBox>
                </children>
             </GridPane>
          </content></TitledPane>

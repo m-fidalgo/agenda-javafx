@@ -9,7 +9,9 @@ import agenda.entities.Contact;
 import agenda.repositories.impl.JdbcContactRepository;
 import agenda.repositories.interfaces.AgendaRepository;
 import agenda.services.impl.exporters.*;
+import agenda.services.impl.importers.*;
 import agenda.services.interfaces.ContactExporterService;
+import agenda.services.interfaces.ContactImporterService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -52,6 +54,9 @@ public class MainController implements Initializable{
 
   @FXML
   private Button btnExportar;
+
+  @FXML
+  private Button btnImportar;
 
   private Boolean isInsert;
 
@@ -97,6 +102,7 @@ public class MainController implements Initializable{
     this.btnCancelar.setDisable(!isEdicaoHabilitada);
     this.btnSalvar.setDisable(!isEdicaoHabilitada);
     this.btnExportar.setDisable(isEdicaoHabilitada);
+    this.btnImportar.setDisable(isEdicaoHabilitada);
     this.btnInsert.setDisable(isEdicaoHabilitada);
     this.btnUpdate.setDisable(isEdicaoHabilitada);
     this.btnDelete.setDisable(isEdicaoHabilitada);
@@ -175,12 +181,32 @@ public class MainController implements Initializable{
     AgendaRepository<Contact> repContato = new JdbcContactRepository();
     try{
       List<Contact> contatos = repContato.select();
-      ContactExporterService service = new FileAndPathsContactService();
+      ContactExporterService service = new FileAndPathsExporterContactService();
       service.export(contatos, "D:/Maira/Documentos/agenda.csv");
       
       Alert alert = new Alert(AlertType.INFORMATION);
       alert.setTitle("Sucesso");
       alert.setHeaderText("Sucesso na exportação");
+      alert.showAndWait();      
+    } catch(Exception e){
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.setTitle("Erro");
+      alert.setHeaderText("Erro ao exportar contatos: " + e.getMessage());
+      alert.showAndWait();
+    }
+  }
+
+   public void btnImportar_Action() {
+    AgendaRepository<Contact> repContato = new JdbcContactRepository();
+    try{
+      ContactImporterService importer = new FileAndPathsImporterContactService();
+      importer.importar("D:/Maira/Documentos/agenda.csv", repContato);
+
+      carregarTabelaContatos();
+      this.tabelaContatos.getSelectionModel().selectFirst();
+      Alert alert = new Alert(AlertType.INFORMATION);
+      alert.setTitle("Sucesso");
+      alert.setHeaderText("Sucesso na importação");
       alert.showAndWait();      
     } catch(Exception e){
       Alert alert = new Alert(AlertType.ERROR);
