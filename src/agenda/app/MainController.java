@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 import agenda.entities.Contact;
 import agenda.repositories.impl.JdbcContactRepository;
 import agenda.repositories.interfaces.AgendaRepository;
+import agenda.services.impl.exporters.*;
+import agenda.services.interfaces.ContactExporterService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -47,6 +49,9 @@ public class MainController implements Initializable{
 
   @FXML
   private Button btnSalvar;
+
+  @FXML
+  private Button btnExportar;
 
   private Boolean isInsert;
 
@@ -91,6 +96,7 @@ public class MainController implements Initializable{
     this.txtTel.setDisable(!isEdicaoHabilitada);
     this.btnCancelar.setDisable(!isEdicaoHabilitada);
     this.btnSalvar.setDisable(!isEdicaoHabilitada);
+    this.btnExportar.setDisable(isEdicaoHabilitada);
     this.btnInsert.setDisable(isEdicaoHabilitada);
     this.btnUpdate.setDisable(isEdicaoHabilitada);
     this.btnDelete.setDisable(isEdicaoHabilitada);
@@ -163,5 +169,25 @@ public class MainController implements Initializable{
       alert.setHeaderText("Erro ao " + (this.isInsert ? "inserir" : "atualizar") + " o contato: " + e.getMessage());
       alert.showAndWait();
     }
+  }
+
+  public void btnExportar_Action() {
+    AgendaRepository<Contact> repContato = new JdbcContactRepository();
+    try{
+      List<Contact> contatos = repContato.select();
+      ContactExporterService service = new FileAndPathsContactService();
+      service.export(contatos, "D:/Maira/Documentos/agenda.csv");
+      
+      Alert alert = new Alert(AlertType.INFORMATION);
+      alert.setTitle("Sucesso");
+      alert.setHeaderText("Sucesso na exportação");
+      alert.showAndWait();      
+    } catch(Exception e){
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.setTitle("Erro");
+      alert.setHeaderText("Erro ao exportar contatos: " + e.getMessage());
+      alert.showAndWait();
+    }
+    
   }
 }
