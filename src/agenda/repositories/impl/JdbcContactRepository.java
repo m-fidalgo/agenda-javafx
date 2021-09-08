@@ -19,7 +19,7 @@ public class JdbcContactRepository implements AgendaRepository<Contact> {
   public List<Contact> select() throws SQLException {
     List<Contact> contatos = new ArrayList<Contact>();
 
-    try(Connection connection = JdbcConnectionFactory.createConnection()){
+    try(Connection connection = JdbcConnectionFactory.getConnection()){
       Statement statement = connection.createStatement();
       ResultSet rs = statement.executeQuery("SELECT * FROM contatos");
   
@@ -34,7 +34,7 @@ public class JdbcContactRepository implements AgendaRepository<Contact> {
 
   @Override
   public void insert(Contact entity) throws SQLException {
-    try(Connection connection = JdbcConnectionFactory.createConnection();){
+    try(Connection connection = JdbcConnectionFactory.getConnection();){
       PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO contatos (nome, idade, tel) VALUES(?, ?, ?)");
       preparedStatement.setString(1, entity.getNome());
       preparedStatement.setInt(2, entity.getIdade());
@@ -51,7 +51,7 @@ public class JdbcContactRepository implements AgendaRepository<Contact> {
     Optional<Contact> original = contatos.stream().filter(contato -> contato.getNome().equals(entity.getNome())).findFirst();
     
     if(original.isPresent()){
-      try(Connection connection = JdbcConnectionFactory.createConnection()){
+      try(Connection connection = JdbcConnectionFactory.getConnection()){
         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE contatos SET idade = ?, tel = ? WHERE id = ?");
         preparedStatement.setInt(1, entity.getIdade());
         preparedStatement.setString(2, entity.getTel());
@@ -69,7 +69,7 @@ public class JdbcContactRepository implements AgendaRepository<Contact> {
     Optional<Contact> original = contatos.stream().filter(contato -> contato.getNome().equals(entity.getNome())).findFirst();
     
     if(original.isPresent()){
-      try(Connection connection = JdbcConnectionFactory.createConnection()){
+      try(Connection connection = JdbcConnectionFactory.getConnection()){
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE from contatos WHERE id = ?");
         preparedStatement.setInt(1, original.get().getId());
         preparedStatement.execute();

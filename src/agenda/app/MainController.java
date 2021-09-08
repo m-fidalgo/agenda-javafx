@@ -6,8 +6,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import agenda.entities.Contact;
-import agenda.repositories.impl.JdbcContactRepository;
 import agenda.repositories.interfaces.AgendaRepository;
+import agenda.repositories.impl.*;
 import agenda.services.impl.exporters.*;
 import agenda.services.impl.importers.*;
 import agenda.services.interfaces.ContactExporterService;
@@ -81,7 +81,7 @@ public class MainController implements Initializable{
 
   private void carregarTabelaContatos() {
     try {
-      AgendaRepository<Contact> repContato = new JdbcContactRepository();
+      AgendaRepository<Contact> repContato = new JpaContactRepository();
       List<Contact> contatos = repContato.select();
       
       //observable pq assim ele repara qd a lista muda e já atualiza
@@ -135,7 +135,7 @@ public class MainController implements Initializable{
       Optional<ButtonType> resp = alert.showAndWait();
 
       if(resp.isPresent() && resp.get() == ButtonType.OK){
-        AgendaRepository<Contact> repContato = new JdbcContactRepository();
+        AgendaRepository<Contact> repContato = new JpaContactRepository();
         repContato.delete(selectedContact);
         carregarTabelaContatos();
         this.tabelaContatos.getSelectionModel().selectFirst();
@@ -156,7 +156,7 @@ public class MainController implements Initializable{
 
   public void btnSalvar_Action() {
     try {
-      AgendaRepository<Contact> repContato = new JdbcContactRepository();
+      AgendaRepository<Contact> repContato = new JpaContactRepository();
       Contact contato = new Contact();
       contato.setNome(txtNome.getText());
       contato.setIdade(Integer.parseInt(txtIdade.getText()));
