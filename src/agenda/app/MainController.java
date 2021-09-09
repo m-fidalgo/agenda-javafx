@@ -81,7 +81,7 @@ public class MainController implements Initializable{
 
   private void carregarTabelaContatos() {
     try {
-      AgendaRepository<Contact> repContato = new JpaContactRepository();
+      AgendaRepository<Contact> repContato = new JdbcContactRepository();
       List<Contact> contatos = repContato.select();
       
       //observable pq assim ele repara qd a lista muda e já atualiza
@@ -135,7 +135,7 @@ public class MainController implements Initializable{
       Optional<ButtonType> resp = alert.showAndWait();
 
       if(resp.isPresent() && resp.get() == ButtonType.OK){
-        AgendaRepository<Contact> repContato = new JpaContactRepository();
+        AgendaRepository<Contact> repContato = new JdbcContactRepository();
         repContato.delete(selectedContact);
         carregarTabelaContatos();
         this.tabelaContatos.getSelectionModel().selectFirst();
@@ -156,7 +156,7 @@ public class MainController implements Initializable{
 
   public void btnSalvar_Action() {
     try {
-      AgendaRepository<Contact> repContato = new JpaContactRepository();
+      AgendaRepository<Contact> repContato = new JdbcContactRepository();
       Contact contato = new Contact();
       contato.setNome(txtNome.getText());
       contato.setIdade(Integer.parseInt(txtIdade.getText()));
