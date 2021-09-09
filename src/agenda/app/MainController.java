@@ -178,7 +178,7 @@ public class MainController implements Initializable{
   }
 
   public void btnExportar_Action() {
-    AgendaRepository<Contact> repContato = new JdbcContactRepository();
+    AgendaRepository<Contact> repContato = new JpaContactRepository();
     try{
       List<Contact> contatos = repContato.select();
       ContactExporterService service = new FileAndPathsExporterContactService();
@@ -197,7 +197,7 @@ public class MainController implements Initializable{
   }
 
    public void btnImportar_Action() {
-    AgendaRepository<Contact> repContato = new JdbcContactRepository();
+    AgendaRepository<Contact> repContato = new JpaContactRepository();
     try{
       ContactImporterService importer = new FileAndPathsImporterContactService();
       importer.importar("D:/Maira/Documentos/agenda.csv", repContato);
