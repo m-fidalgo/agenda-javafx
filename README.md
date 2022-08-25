@@ -9,6 +9,10 @@
 <p>:heavy_check_mark: Importar contatos a partir de um arquivo externo</p>
 
 <h3>Tecnologias e Ferramentas</h3>
-<li>Java e JavaFX</li>
-<li>MySQL</li>
-<li>JDBC e JPA</li>
+
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
+
+<li>JavaFX</li>
+<li>JDBC</li>
+<li>JPA</li>
